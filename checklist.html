@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCAN&GO 개발 로드맵 체크리스트</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter','Malgun Gothic',sans-serif;background:#f4f6f9;color:#0f1b2d;min-height:100vh;padding:32px 20px}
+.wrap{max-width:900px;margin:0 auto}
+.page-head{margin-bottom:28px}
+.page-head h1{font-size:26px;font-weight:900;letter-spacing:-.3px}
+.page-head .sub{font-size:13px;color:#8a94a6;margin-top:6px}
+.updated{display:inline-block;background:#e0faf6;color:#00a88a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;margin-top:8px}
+.section{margin-bottom:24px}
+.section-title{font-size:13px;font-weight:800;color:#8a94a6;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;padding-left:4px}
+.card{background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,.06);border:1px solid #e2e7ef;overflow:hidden}
+.item{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border-bottom:1px solid #f0f2f5}
+.item:last-child{border-bottom:none}
+.item-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.item-body{flex:1;min-width:0}
+.item-title{font-size:14px;font-weight:700;color:#0f1b2d;margin-bottom:3px}
+.item-desc{font-size:12px;color:#8a94a6;line-height:1.6}
+.badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:700;margin-left:8px;vertical-align:middle}
+.done{background:#d1fae5;color:#059669}
+.inprogress{background:#dbeafe;color:#1d4ed8}
+.pending{background:#fef3c7;color:#b45309}
+.hold{background:#f1f5f9;color:#64748b}
+.priority{background:#fee2e2;color:#dc2626}
+.item-date{font-size:11px;color:#c4c9d4;margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:#fff;border-radius:10px;padding:16px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.05);border:1px solid #e2e7ef}
+.stat-num{font-size:28px;font-weight:900;line-height:1}
+.stat-lbl{font-size:11px;color:#8a94a6;margin-top:5px;font-weight:600}
+.done-num{color:#059669}
+.progress-bar{height:6px;background:#e2e7ef;border-radius:3px;margin-bottom:24px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#00c9a7,#00a88a);border-radius:3px;transition:width .6s ease}
+.country-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.country-tab{padding:11px 20px;border-radius:10px;border:1.5px solid #e2e7ef;background:#fff;color:#3d4a5c;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:8px;transition:.15s}
+.country-tab:hover{border-color:#bcdfd6}
+.country-tab.active{border-color:#00c9a7;background:rgba(0,201,167,.1);color:#00a88a}
+.country-tab .flag{font-size:18px}
+.blocker{background:#fee2e2;color:#dc2626}
+.star-badge{background:#fef9c3;color:#92400e;border:1px solid #fcd34d}
+.star-section .section-title{color:#b45309}
+.star-card{border:2px solid #fcd34d !important;background:#fffbeb}
+.star-item{background:#fffbeb}
+</style>
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+<body>
+<div class="wrap">
+
+  <div class="page-head">
+    <h1>🛡️ SCAN&GO 개발 로드맵</h1>
+    <div class="sub">노무 리스크 방어 특화 QR 출퇴근 관리 SaaS · 마지막 업데이트: 2026-06-02</div>
+    <span class="updated">현재 버전: v0.9 — 전자계약서 표준화 + 주민번호 암호화 + 자동알림</span>
+  </div>
+
+  <!-- 국가 선택 탭 -->
+  <div class="country-tabs">
+    <button class="country-tab active" data-country="kr"><span class="flag">🇰🇷</span> 한국 · SCAN&GO</button>
+    <button class="country-tab" data-country="my"><span class="flag">🇲🇾</span> 말레이시아 출시 준비</button>
+  </div>
+
+  <!-- ═══════════════════ 🇰🇷 한국 뷰 ═══════════════════ -->
+  <div id="view-kr" class="country-view">
+
+  <!-- 진행률 -->
+  <div class="stats">
+    <div class="stat-card"><div class="stat-num done-num">25</div><div class="stat-lbl">✅ 완료</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#1d4ed8">1</div><div class="stat-lbl">🔄 진행중</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#b45309">8</div><div class="stat-lbl">⏳ 대기</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#64748b">4</div><div class="stat-lbl">🚫 보류</div></div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" style="width:58%"></div></div>
+
+  <!-- ── ⭐ 직접 해야 할 일 ── -->
+  <div class="section star-section">
+    <div class="section-title">⭐ 내가 직접 해야 할 일</div>
+    <div class="card star-card">
+      <div class="item star-item">
+        <div class="item-icon">⭐</div>
+        <div class="item-body">
+          <div class="item-title">Google Play Console 신원인증 완료 후 앱 등록 <span class="badge inprogress">진행중</span></div>
+          <div class="item-desc">
+            신분증 제출 후 승인 대기 중 (2~7일). 승인되면 → <b>play.google.com/console</b> → 앱 만들기 → AAB 업로드.<br>
+            Codemagic android-release 워크플로우가 자동 빌드·배포 준비 완료됨.
+          </div>
+        </div>
+      </div>
+      <div class="item star-item">
+        <div class="item-icon">⭐</div>
+        <div class="item-body">
+          <div class="item-title">Google Play 서비스 계정 JSON → Codemagic 등록 <span class="badge pending">대기</span></div>
+          <div class="item-desc">
+            1️⃣ <b>console.cloud.google.com</b> → IAM → 서비스 계정 만들기 → JSON 키 다운로드<br>
+            2️⃣ <b>play.google.com/console</b> → 설정 → API 액세스 → 서비스 계정 연결 → 릴리즈 관리자 권한<br>
+            3️⃣ <b>codemagic.io</b> → 앱 설정 → Environment variables → android 그룹 →<br>
+            &nbsp;&nbsp;<code>GCLOUD_SERVICE_ACCOUNT_CREDENTIALS</code> 변수로 JSON 전체 내용 붙여넣기
+          </div>
+        </div>
+      </div>
+      <div class="item star-item">
+        <div class="item-icon">⭐</div>
+        <div class="item-body">
+          <div class="item-title">통신판매업 신고 <span class="badge pending">대기</span> <span class="badge star-badge">법적 의무</span></div>
+          <div class="item-desc">
+            유료 서비스 판매 전 전자상거래법 §12에 따라 시·군·구청에 신고 필수. 미신고 시 3천만 원 이하 과태료.<br>
+            🔗 온라인: <a href="https://www.gov.kr" target="_blank" style="color:#00a88a;font-weight:700">정부24 (gov.kr)</a> → "통신판매업신고" 검색 → 온라인 신청<br>
+            준비물: 사업자등록증, 구매안전서비스(에스크로) 이용 확인증 또는 소비자피해보상보험 가입증
+          </div>
+        </div>
+      </div>
+      <div class="item star-item">
+        <div class="item-icon">⭐</div>
+        <div class="item-body">
+          <div class="item-title">위치기반서비스사업 신고 (GPS) <span class="badge pending">대기</span> <span class="badge star-badge">법적 의무</span></div>
+          <div class="item-desc">
+            GPS 위치 데이터를 사업 목적으로 수집·이용하면 위치정보법 §9에 따라 방통위 신고 필수. 미신고 시 2천만 원 이하 과태료.<br>
+            🔗 <a href="https://www.kcc.go.kr" target="_blank" style="color:#00a88a;font-weight:700">방송통신위원회 (kcc.go.kr)</a> → 민원신청 → 위치기반서비스사업 신고<br>
+            준비물: 사업자등록증, 서비스 개요서 (QR+GPS 출퇴근 확인 서비스). 등록면허세 45,000원 납부
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 완료 ── -->
+  <div class="section">
+    <div class="section-title">✅ 완료된 기능</div>
+    <div class="card">
+      <div class="item">
+        <div class="item-icon">📜</div>
+        <div class="item-body">
+          <div class="item-title">전자근로계약서 — 고용노동부 표준 양식 <span class="badge done">완료</span></div>
+          <div class="item-desc">정규/계약/단시간/일용/건설/프리랜서 6종 · 사회보험·휴일·교부·성실이행·임금구성 분리 · 사장·직원 동일 계약서 전자서명</div>
+          <div class="item-date">2026-06-02 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🗂️</div>
+        <div class="item-body">
+          <div class="item-title">입사 필수 서류 (개인정보 동의서·보안서약서) <span class="badge done">완료</span></div>
+          <div class="item-desc">발급 → 직원 앱 전자서명. 개인정보보호법 §15·§24 / 영업비밀보호법 기준</div>
+          <div class="item-date">2026-06-02 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🔐</div>
+        <div class="item-body">
+          <div class="item-title">주민등록번호 암호화 <span class="badge done">완료</span></div>
+          <div class="item-desc">pgcrypto + Supabase Vault 키. 화면 마스킹, 평문 저장 차단, 세무사 제출용 복호화 export(사장 전용 RPC). 개인정보보호법 §24의2</div>
+          <div class="item-date">2026-06-02 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📒</div>
+        <div class="item-body">
+          <div class="item-title">법정 임금대장 + 세무사용 급여대장 <span class="badge done">완료</span></div>
+          <div class="item-desc">근로기준법 §48 임금대장(생년월일·입사일·직책 포함), 급여명세서 §27의2 보강, 세무사 제출용(주민번호·계좌) 일괄 export</div>
+          <div class="item-date">2026-06-02 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🚨</div>
+        <div class="item-body">
+          <div class="item-title">런타임 에러 모니터링 (Sentry) <span class="badge done">완료</span></div>
+          <div class="item-desc">PWA·안드로이드 에러 자동 수집. VITE_SENTRY_DSN만 넣으면 활성(무료 티어). 주민번호 패턴 자동 마스킹</div>
+          <div class="item-date">2026-06-02 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🔔</div>
+        <div class="item-body">
+          <div class="item-title">일일 자동 알림 (미퇴근·미서명·체험만료) <span class="badge done">완료</span></div>
+          <div class="item-desc">매일 06:00 KST pg_cron → cron-notify Edge Function → 사장 웹푸시. 무료, 추가 비용 없음</div>
+          <div class="item-date">2026-06-02 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🧪</div>
+        <div class="item-body">
+          <div class="item-title">E2E 자동 테스트 골격 (Playwright) <span class="badge done">완료</span></div>
+          <div class="item-desc">핵심 플로우 회귀 검증용 스모크 테스트. `npm run test:e2e`로 실행</div>
+          <div class="item-date">2026-06-02 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📱</div>
+        <div class="item-body">
+          <div class="item-title">QR 출퇴근 시스템 <span class="badge done">완료</span></div>
+          <div class="item-desc">현장별 QR 발급, GPS 위치 검증, 실시간 출퇴근 기록</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">💰</div>
+        <div class="item-body">
+          <div class="item-title">급여 자동 계산 + 급여명세서 PDF <span class="badge done">완료</span></div>
+          <div class="item-desc">시급/일급/월급제, 4대보험/프리랜서 공제, 야간·연장수당 자동 계산</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📊</div>
+        <div class="item-body">
+          <div class="item-title">엑셀 내보내기 (급여내역·출역일보·4대보험) <span class="badge done">완료</span></div>
+          <div class="item-desc">세무사/노무사 제출용 전문 양식, 크로스탭 출역일보, 4대보험 세분화</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">⏰</div>
+        <div class="item-body">
+          <div class="item-title">주 52시간 자동 모니터링 <span class="badge done">완료</span></div>
+          <div class="item-desc">대시보드 주간 근로시간 집계, 48h 경고 · 52h 초과 배지</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🛡️</div>
+        <div class="item-body">
+          <div class="item-title">노무경보 배너 (퇴직금·주휴수당·52시간) <span class="badge done">완료</span></div>
+          <div class="item-desc">대시보드 상단 자동 경보: 퇴직금 임박(11개월+), 주휴수당 대상자, 52시간 초과</div>
+          <div class="item-date">2026-05-30 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🧮</div>
+        <div class="item-body">
+          <div class="item-title">급여 계산기 (순방향·역방향) <span class="badge done">완료</span></div>
+          <div class="item-desc">2026 최저시급 10,320원 기준 · 시급→월급, 목표실수령액→시급 역산 · 사업주 총 인건비 포함</div>
+          <div class="item-date">2026-05-30 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📋</div>
+        <div class="item-body">
+          <div class="item-title">직원 상세정보 (생년월일·입사일·계좌) <span class="badge done">완료</span></div>
+          <div class="item-desc">법정 임금대장 필수 기재사항 완비 (근로기준법 §48)</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🏢</div>
+        <div class="item-body">
+          <div class="item-title">사업장 정보 (사업자번호·대표자·주소) <span class="badge done">완료</span></div>
+          <div class="item-desc">설정 > 사업장 정보에서 입력, 엑셀 헤더에 자동 반영</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📤</div>
+        <div class="item-body">
+          <div class="item-title">엑셀 직원 일괄 등록 <span class="badge done">완료</span></div>
+          <div class="item-desc">템플릿 다운로드 → 직원 정보 작성 → 업로드 한 번으로 대량 등록</div>
+          <div class="item-date">2026-05-30 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🔗</div>
+        <div class="item-body">
+          <div class="item-title">직원 초대 링크 생성 <span class="badge done">완료</span></div>
+          <div class="item-desc">설정에서 사업장 고유 초대 링크 생성·공유, 재생성 가능</div>
+          <div class="item-date">2026-05-30 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">💬</div>
+        <div class="item-body">
+          <div class="item-title">채널톡 고객지원 챗봇 <span class="badge done">완료</span></div>
+          <div class="item-desc">Channel.io 무료 플랜 삽입 완료. Plugin Key 교체만 하면 즉시 활성화</div>
+          <div class="item-date">2026-05-30 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📣</div>
+        <div class="item-body">
+          <div class="item-title">포지셔닝 변경 — "노무 리스크 방어" <span class="badge done">완료</span></div>
+          <div class="item-desc">랜딩페이지 히어로·기능 카드·CTA 전면 교체 (편의성 → 공포 마케팅)</div>
+          <div class="item-date">2026-05-30 추가</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 진행중 ── -->
+  <div class="section">
+    <div class="section-title">🔄 진행중</div>
+    <div class="card">
+      <div class="item">
+        <div class="item-icon">📱</div>
+        <div class="item-body">
+          <div class="item-title">Google Play 신원인증 <span class="badge inprogress">진행중</span></div>
+          <div class="item-desc">개발자 신원 인증 이메일 대기 중 (2~7일 소요). 완료 후 AAB 재업로드 필요</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🔗</div>
+        <div class="item-body">
+          <div class="item-title">초대 링크 login.js 연동 <span class="badge done">완료</span></div>
+          <div class="item-desc">?join=TOKEN 감지 → 코드 필드 숨김 + claim_employee_by_token RPC로 tenant 자동 연결. 기존 ?code= 플로우 동시 지원</div>
+          <div class="item-date">2026-06-03 완료</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 대기 ── -->
+  <div class="section">
+    <div class="section-title">⏳ 대기 (우선순위 순)</div>
+    <div class="card">
+      <div class="item">
+        <div class="item-icon">🏪</div>
+        <div class="item-body">
+          <div class="item-title">키오스크 모드 (직원 앱 설치 없이 출퇴근) <span class="badge priority">우선순위 높음</span></div>
+          <div class="item-desc">현장 태블릿 1대로 직원들이 이름 터치 → 출퇴근 체크. 사장님 온보딩 마찰 최대 감소 요인</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📸</div>
+        <div class="item-body">
+          <div class="item-title">사진 OCR 직원 등록 (Claude Vision API) <span class="badge pending">대기</span></div>
+          <div class="item-desc">직원 명단 사진/명함 촬영 → Claude API가 자동 파싱 → 직원 등록. 비용: 장당 약 0.01달러</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">💳</div>
+        <div class="item-body">
+          <div class="item-title">결제 연동 코드 (포트원 정기결제) <span class="badge done">코드완료</span></div>
+          <div class="item-desc">직원 1인당 5,000원/월. 포트원 빌링키 첫 결제(portone-webhook) + 매월 자동 재결제(portone-rebill, cron) + 구독 해지/재개(cancel/resume RPC). 5인 이하 무료. (토스 폐기)</div>
+          <div class="item-date">2026-06-06 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🏦</div>
+        <div class="item-body">
+          <div class="item-title">포트원 가맹점 심사 — 테스트 결제 완료 후 실결제 신청 <span class="badge priority">심사 진행중</span></div>
+          <div class="item-desc">
+            <b>순서:</b><br>
+            1️⃣ admin.portone.io 로그인 → 테스트 PG(KG이니시스 테스트) 연동 설정<br>
+            2️⃣ scandgo.com 설정 → 구독 버튼으로 테스트 결제 1건 완료 (테스트 카드 사용)<br>
+            3️⃣ 포트원 콘솔에서 결제 검증 확인 → 실결제 심사 신청 클릭<br>
+            4️⃣ 심사 승인 후 IMP_KEY / IMP_SECRET 발급받아 Supabase Vault에 등록:<br>
+            &nbsp;&nbsp;<code>supabase secrets set PORTONE_IMP_KEY=xxx PORTONE_IMP_SECRET=yyy</code><br>
+            5️⃣ GitHub Secret <code>VITE_PORTONE_IMP_CODE</code> 도 실 가맹점 코드로 업데이트 후 push
+          </div>
+          <div class="item-date">2026-06-17 추가 — 테스트 모드 먼저 완료해야 심사 가능 (이메일 안내 받음)</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📤</div>
+        <div class="item-body">
+          <div class="item-title">기존 데이터 가져오기 (타 앱 → SCAN&GO) <span class="badge pending">대기</span></div>
+          <div class="item-desc">출퇴근 기록 포함 엑셀 업로드. 알바체크·시프티 등 타 앱 내보내기 양식 파싱</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">⚖️</div>
+        <div class="item-body">
+          <div class="item-title">퇴직금 계산기 + 자동 알림 고도화 <span class="badge pending">대기</span></div>
+          <div class="item-desc">평균임금 기반 퇴직금 정확 계산, 퇴직금 예상액 표시, 14일 내 지급 알림</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📊</div>
+        <div class="item-body">
+          <div class="item-title">사업주 4대보험 계산서 <span class="badge pending">대기</span></div>
+          <div class="item-desc">근로자 부담분 + 사업주 부담분 합계 엑셀. 세무사 제출용 4대보험 신고 보조자료</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📬</div>
+        <div class="item-body">
+          <div class="item-title">카카오 알림톡 연동 <span class="badge inprogress">스켈레톤 완료</span></div>
+          <div class="item-desc">send-alimtalk Edge Function 스켈레톤 작성 완료(Solapi 기준). 대행사 가입·템플릿 심사·키 발급(ALIMTALK_*)만 하면 활성화. 출근누락·계약서 서명요청·급여명세·체험만료 발송용</div>
+          <div class="item-date">2026-06-02 스켈레톤 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📈</div>
+        <div class="item-body">
+          <div class="item-title">인력사무소 파견 관리 고도화 <span class="badge pending">대기</span></div>
+          <div class="item-desc">파견처별 청구서 자동 생성, 파견 인원 현황 리포트, 파견처 단가 관리</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 보류 ── -->
+  <div class="section">
+    <div class="section-title">🚫 보류 (의도적으로 미진행)</div>
+    <div class="card">
+      <div class="item">
+        <div class="item-icon">🤖</div>
+        <div class="item-body">
+          <div class="item-title">Claude API 기반 노무 상담 챗봇 <span class="badge hold">보류</span></div>
+          <div class="item-desc">채널톡 → Claude API 교체. 근태 데이터 기반 개인화 노무 상담. 사용자 요청 시 진행</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🏗️</div>
+        <div class="item-body">
+          <div class="item-title">건설일용직 퇴직공제제도 연동 <span class="badge hold">보류</span></div>
+          <div class="item-desc">건설근로자공제회 API 연동. 일용직 공제부금 납부 현황 관리. 사용자 요청 시 진행</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🌐</div>
+        <div class="item-body">
+          <div class="item-title">다국어 지원 (베트남어·중국어) <span class="badge hold">보류</span></div>
+          <div class="item-desc">건설·인력사무소 외국인 근로자 대상. MVP 검증 후 진행 예정</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🍎</div>
+        <div class="item-body">
+          <div class="item-title">iOS (App Store) 출시 <span class="badge hold">보류</span></div>
+          <div class="item-desc">Android Google Play 안정화 후 진행. 개발자 계정 비용 $99/년 발생</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 추가 추천 기능 ── -->
+  <div class="section">
+    <div class="section-title">💡 추가하면 좋을 기능 (제안)</div>
+    <div class="card">
+      <div class="item">
+        <div class="item-icon">🗄️</div>
+        <div class="item-body">
+          <div class="item-title">계약서·서류 PDF 보관함 + 일괄 다운로드 <span class="badge pending">제안</span></div>
+          <div class="item-desc">서명 완료 계약서를 PDF로 자동 보관, 노동청·감사 대비 일괄 내보내기. 근로기준법 3년 보존 의무 대응</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">👀</div>
+        <div class="item-body">
+          <div class="item-title">노무사·세무사 협업(읽기전용) 계정 <span class="badge pending">제안</span></div>
+          <div class="item-desc">외부 전문가에게 급여대장·계약서 읽기 권한만 공유. "전문가가 봐주는 앱"으로 신뢰도↑, 락인↑</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">⚠️</div>
+        <div class="item-body">
+          <div class="item-title">근태 이상 자동 감지 (지각·결근·연장 패턴) <span class="badge done">완료</span></div>
+          <div class="item-desc">대시보드 30일 지각·연장 패턴 실시간 표시 + cron-notify 매주 월요일 이상 알림 발송</div>
+          <div class="item-date">2026-06-04 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🔁</div>
+        <div class="item-body">
+          <div class="item-title">직원 셀프 출퇴근 정정요청 워크플로 <span class="badge done">완료</span></div>
+          <div class="item-desc">직원 내역 탭 정정요청 버튼 → 사장 근태관리 승인/반려 패널. approve/reject RPC로 실제 레코드 반영</div>
+          <div class="item-date">2026-06-04 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📈</div>
+        <div class="item-body">
+          <div class="item-title">경영 대시보드 (인건비 추이) <span class="badge done">완료</span></div>
+          <div class="item-desc">대시보드 최근 6개월 월별 총 인건비 바 차트. 이번 달 강조 표시</div>
+          <div class="item-date">2026-06-04 추가</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🎁</div>
+        <div class="item-body">
+          <div class="item-title">추천(레퍼럴) 코드 <span class="badge done">완료</span></div>
+          <div class="item-desc">사업장별 6자리 코드 자동 발급. 코드 입력 시 추천인+피추천인 무료체험 각 +30일. 설정 화면에서 공유 가능</div>
+          <div class="item-date">2026-06-04 추가</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 성장·운영 전략 ── -->
+  <div class="section">
+    <div class="section-title">🚀 성장·운영 전략 (앞으로의 방향)</div>
+    <div class="card">
+      <div class="item">
+        <div class="item-icon">🚪</div>
+        <div class="item-body">
+          <div class="item-title">출시 단계 — 좁게 시작</div>
+          <div class="item-desc">내부테스트 → 청소·경비 업종 지인 5~10곳 비공개 베타 → 피드백 반영 후 프로덕션. 한 업종에서 "이거 없으면 안 됨" 만들기</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🎯</div>
+        <div class="item-body">
+          <div class="item-title">획득(Acquisition) — 노무 공포 + 커뮤니티</div>
+          <div class="item-desc">청소·경비·인력사무소 네이버 카페·밴드, "퇴직금/주휴/52시간 안 지키면 벌금" 콘텐츠, 레퍼럴. 저비용 타겟 채널 집중</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">⚡</div>
+        <div class="item-body">
+          <div class="item-title">활성화(Activation) — 5분 내 첫 성공</div>
+          <div class="item-desc">온보딩 마찰 제거: 엑셀 일괄등록·초대링크(완료) + 키오스크 모드. "가입→첫 QR 생성→직원 첫 출근"을 핵심 지표로</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🔒</div>
+        <div class="item-body">
+          <div class="item-title">리텐션(Retention) — 매달 꼭 여는 앱</div>
+          <div class="item-desc">자동 알림·노무경보(완료)로 능동적 가치 전달, 월 급여 자동 집계·명세서 발송으로 "월말 필수 도구" 포지션</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">💳</div>
+        <div class="item-body">
+          <div class="item-title">매출(Revenue) — 5인↑ 유료 전환</div>
+          <div class="item-desc">5인 이하 무료로 습관화 → 5인 초과 시 자연 전환(포트원 정기결제). 연간결제 할인, 세무사 제휴 채널</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🌏</div>
+        <div class="item-body">
+          <div class="item-title">확장(Expansion) — 채널·시장 넓히기</div>
+          <div class="item-desc">안정화 후 iOS, 외국인 근로자 다국어(건설·인력), 프랜차이즈 다점포 관리. 인접 업종으로 수평 확장</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🛠️</div>
+        <div class="item-body">
+          <div class="item-title">운영 자동화 — 1인 운영 유지</div>
+          <div class="item-desc">Sentry로 버그 선제 대응(완료), 주간 자동 백업(완료), 채널톡 CS, 정기 cron 알림(완료). PostHog로 퍼널 측정 → 이탈 지점 개선</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 경쟁사 벤치마킹 (선별 도입) ── -->
+  <div class="section">
+    <div class="section-title">🎯 경쟁사 벤치마킹 — 선별 도입 (시프티·파인워크 대비)</div>
+    <div class="card">
+      <div class="item">
+        <div class="item-icon">🧭</div>
+        <div class="item-body">
+          <div class="item-title">원칙 — 폭 넓히기 금지, 깊이만 추가 <span class="badge hold">기준</span></div>
+          <div class="item-desc">"청소·경비·인력·건설 소상공인의 노무·급여·세무를 더 깊게 만드는가?"가 Yes일 때만 도입. 멋있어 보이는 범용 기능은 버린다 (1인 개발 리소스 분산 = 자살)</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📆</div>
+        <div class="item-body">
+          <div class="item-title">연차 자동발생·촉진 관리 <span class="badge priority">우선순위 높음</span></div>
+          <div class="item-desc">시프티·파인워크 보유. "노무 리스크 방어"의 정중앙 — 소상공인이 가장 많이 틀리고 벌금 맞는 부분. 입사일 기준 자동 발생 + 미사용 연차 사용촉진 알림</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🛡️</div>
+        <div class="item-body">
+          <div class="item-title">근로감독·정부지원금 대응 패키지 <span class="badge priority">우선순위 높음 · 차별화</span></div>
+          <div class="item-desc">파인워크 보유. 두루누리 4대보험 지원·근로감독 대비 서류 자동 생성. 포지션과 100% 일치 → SCAN&GO의 차별화 무기로 키울 수 있는 영역</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🏪</div>
+        <div class="item-body">
+          <div class="item-title">키오스크 모드 (태블릿 1대 출퇴근) <span class="badge priority">우선순위 높음 · 사실상 필수</span></div>
+          <div class="item-desc">고령·외국인·일용 직원은 앱 설치+QR이 마찰. 현장 태블릿 1대로 이름 터치 출퇴근 → 직원측 진입장벽 제거 (기존 대기 항목, 우선순위 상향)</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🌐</div>
+        <div class="item-body">
+          <div class="item-title">외국인 근로자 다국어 + 체류자격/비자 관리 <span class="badge pending">제안</span></div>
+          <div class="item-desc">건설·인력 현장의 진짜 니즈. 시프티·파인워크보다 SCAN&GO가 오히려 더 절실하게 풀 수 있는 영역 (베트남어·중국어 등)</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🚫</div>
+        <div class="item-body">
+          <div class="item-title">따라가지 말 것 (함정) <span class="badge hold">제외</span></div>
+          <div class="item-desc">협업 메신저(카톡이 이미 점령 → 알림톡 연동으로 대체) · 범용 전자결재 워크플로 · Slack/Teams/Google 연동 · SSO/감사로그/데스크톱 앱. 전부 엔터프라이즈용, 타겟이 안 씀</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 타겟 적합도 보완 & 방향성 ── -->
+  <div class="section">
+    <div class="section-title">🧭 타겟 적합도 보완 &amp; 방향성 (적합도 컨셉 80 / 실행맥락 62 → 끌어올리기)</div>
+    <div class="card">
+      <div class="item">
+        <div class="item-icon">🎣</div>
+        <div class="item-body">
+          <div class="item-title">핵심 방향 — 출퇴근은 미끼, 해자는 "노무·세무 깊이 + 세무사 채널" <span class="badge priority">최우선 원칙</span></div>
+          <div class="item-desc">출퇴근으로 경쟁하면 무료앱(가치업·뉴플로이)에 먹힘. 계약·급여·4대보험·세무 실무 깊이 + 세무사/노무사 채널 락인으로 승부. 이게 베껴도 못 따라오는 해자</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🙋</div>
+        <div class="item-body">
+          <div class="item-title">직원 입력 마찰 해소 (고령·외국인·일용) <span class="badge priority">우선순위 높음</span></div>
+          <div class="item-desc">현 QR+앱설치는 타겟 직원층에 마찰. 키오스크 + 큰 버튼·다국어 친화 UX + QR 외 대체수단. "사장은 좋은데 직원이 못 쓰는" 위험 제거</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🔄</div>
+        <div class="item-body">
+          <div class="item-title">"매일 바뀌는 현장" 대응 — 파견·현장별 배정/청구 <span class="badge pending">대기</span></div>
+          <div class="item-desc">인력사무소·건설은 일별로 인력·현장이 바뀜. 고정직원 모델만으론 안 맞음. 일별 인력 변동·파견처별 청구서 자동화 강화 (현재 청소·경비 고정인력엔 적합)</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">⚖️</div>
+        <div class="item-body">
+          <div class="item-title">노무 "방어 깊이" 강화 — 벌금 피한 순간 만들기 <span class="badge pending">대기</span></div>
+          <div class="item-desc">사장이 진짜 무서운 건 퇴직금·주휴·최저임금·미서명 계약. 이를 자동 감지·경보·해결 유도까지 고도화 (현 노무경보는 시작 단계)</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">🤝</div>
+        <div class="item-body">
+          <div class="item-title">신뢰 격차 메우기 (가장 시급) <span class="badge priority">우선순위 높음</span></div>
+          <div class="item-desc">타겟은 "직원 주민번호·급여를 맡기는" B2B → 검증·안전이 구매 핵심인데 제품은 미검증 1인 신생. 베타 레퍼런스 1~2곳·후기, 개인정보 처리방침·보안 설명 페이지, 1인 개발 티 줄이는 신뢰 장치 필요</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">📲</div>
+        <div class="item-body">
+          <div class="item-title">진입장벽 제거 — iOS 출시 + 토스 결제 연동 <span class="badge pending">대기</span></div>
+          <div class="item-desc">아이폰 사장·직원 배제 해소, 결제 미연동이면 유료 전환 자체가 불가. 현장 시장 진입에 실제로 필요</div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="item-icon">👥</div>
+        <div class="item-body">
+          <div class="item-title">세무사·노무사 채널 락인 = 진짜 해자 <span class="badge pending">전략</span></div>
+          <div class="item-desc">전문가용 읽기전용 협업 계정 → "전문가가 추천·관리하는 앱" 구조. 객단가 낮은 소상공인 시장을 이기는 유일한 분배 채널이자 방어막</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /#view-kr -->
+
+  <!-- ═══════════════════ 🇲🇾 말레이시아 뷰 ═══════════════════ -->
+  <div id="view-my" class="country-view" style="display:none">
+
+    <div class="page-head" style="margin-bottom:18px">
+      <h1 style="font-size:22px">🇲🇾 말레이시아 출시 준비</h1>
+      <div class="sub">한국 SCAN&GO 코어를 재사용해 만드는 말레이시아 버전 — QR은 현지에서도 이미 흔하므로 <b>간편함 · 현지 컴플라이언스 리포트 · MYR 가격</b>으로 승부. 목표 고객: 미니 카페·리테일·살롱·소규모 건설팀(직원 ≤10명)</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card"><div class="stat-num done-num">0</div><div class="stat-lbl">✅ 완료</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:#1d4ed8">0</div><div class="stat-lbl">🔄 진행중</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:#b45309">16</div><div class="stat-lbl">⏳ 할 일</div></div>
+      <div class="stat-card"><div class="stat-num" style="color:#dc2626">4</div><div class="stat-lbl">🚧 출시 블로커</div></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:3%"></div></div>
+
+    <!-- 출시 전 필수 (하드 블로커) -->
+    <div class="section">
+      <div class="section-title">🚧 출시 전 필수 — 이게 안 되면 출시 자체가 불가</div>
+      <div class="card">
+        <div class="item">
+          <div class="item-icon">💳</div>
+          <div class="item-body">
+            <div class="item-title">결제 스택 교체 — 포트원 ❌ → 현지 게이트웨이 <span class="badge blocker">블로커</span></div>
+            <div class="item-desc">포트원/토스는 한국 전용이라 MYR·말레이시아 가맹점 결제 불가. <b>HitPay</b>(FPX 계좌이체 + DuitNow QR + e-월렛[Touch'n Go·GrabPay·ShopeePay] + 카드, 월 고정비 없음, 정기결제 지원) 권장. 확장 시 Stripe(카드+FPX)·Curlec 병행</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">🌐</div>
+          <div class="item-body">
+            <div class="item-title">다국어(i18n) 레이어 도입 <span class="badge blocker">블로커</span></div>
+            <div class="item-desc">현재 전 문자열이 한국어 하드코딩(i18n 없음). 직원 출퇴근 화면은 <b>Bahasa Malaysia + 영어</b>(이주노동자 대응), 사장 UI는 영어 기본 + 간체 중국어 옵션. KST·010 전화·원화 포맷 분리</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">🗄️</div>
+          <div class="item-body">
+            <div class="item-title">데이터 레지던시 + PDPA 2024 대응 <span class="badge blocker">블로커</span></div>
+            <div class="item-desc">PDPA 개정(2024)으로 국외이전 제한 — 말레이시아 직원 데이터를 한국 서버에 두면 위반. <b>말레이시아/적정성 인정 리전</b>에 별도 Supabase 프로젝트. 유출통지 의무(2025.6)·DPO 지정·벌금 최대 RM100만. 생체(얼굴)·GPS는 민감정보 → 명시적 동의 필요(QR-only는 생체 미수집이라 유리)</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">🧾</div>
+          <div class="item-body">
+            <div class="item-title">통화·세금 — MYR + SST + e-Invoice <span class="badge blocker">블로커</span></div>
+            <div class="item-desc">전 화면·청구서 MYR(RM) 표기. SST(서비스세) 처리 + LHDN <b>MyInvois e-Invoice</b> 호환 세금계산서 발행(B2B 고객이 비용처리·보조금 신청에 필요)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 현지화 (제품) -->
+    <div class="section">
+      <div class="section-title">🛠️ 현지화 — 제품 엔진</div>
+      <div class="card">
+        <div class="item">
+          <div class="item-icon">⚖️</div>
+          <div class="item-body">
+            <div class="item-title">근로법·급여 엔진 교체 (한국법 → 말레이시아법) <span class="badge priority">우선순위 높음</span></div>
+            <div class="item-desc">한국 4대보험 9.4%·주휴수당·퇴직금·209h는 전부 무효. Employment Act 1955(2022개정): 주 45시간·1일 최대 12시간·5시간 후 30분 휴게, <b>공휴일 OT 3배</b>, 기록 <b>6년 보존</b>. 통계공제 EPF/SOCSO/EIS/PCB</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">📅</div>
+          <div class="item-body">
+            <div class="item-title">주(州)별 공휴일 캘린더 <span class="badge pending">할 일</span></div>
+            <div class="item-desc">13개 주 + 3개 연방직할구가 각각 다른 공휴일 + 이슬람/음력 변동일. 글로벌 앱이 가장 자주 틀리는 부분 → 정확한 주별 캘린더가 OT(3배) 계산의 핵심</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">📜</div>
+          <div class="item-body">
+            <div class="item-title">전자근로계약서 재작성 (Employment Act 1955) <span class="badge pending">할 일</span></div>
+            <div class="item-desc">한국 고용노동부 표준양식(6종)·근로기준법 인용은 폐기. 말레이시아 고용계약 양식으로 전면 재작성(영어/BM)</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">🔐</div>
+          <div class="item-body">
+            <div class="item-title">주민등록번호(RRN) 제거 → NRIC/MyKad·여권 <span class="badge pending">할 일</span></div>
+            <div class="item-desc">한국 주민번호는 해외에 없음 → 자국민 NRIC(MyKad), 외국인 여권번호 + 취업허가(PLKS) 번호 필드로 대체. 암호화 패턴(Vault)은 그대로 재사용</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">🧮</div>
+          <div class="item-body">
+            <div class="item-title">통계공제 export (EPF/SOCSO/EIS/PCB) <span class="badge pending">할 일</span></div>
+            <div class="item-desc">근태→급여 데이터를 현지 급여 처리로 연결. 최소 CSV export(SQL Payroll·Kakitangan·Swingvy 포맷 매핑). SOCSO/EIS 임금상한 RM6,000, 매월 15일 납부</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">🪪</div>
+          <div class="item-body">
+            <div class="item-title">외국인 노동자 관리 (PLKS·국적) <span class="badge pending">할 일</span></div>
+            <div class="item-desc">건설·F&B 핵심. 취업허가(PLKS) 만료 알림 필드 + 국적 태그. 2025.10부터 외국인도 EPF(노사 각 2%). ⚠️ FWCMS는 정부 전용 API 없음 → "리마인더/필드"로만 제공(동기화 약속 금지)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 규제·법무 -->
+    <div class="section">
+      <div class="section-title">⚖️ 규제·법무</div>
+      <div class="card">
+        <div class="item">
+          <div class="item-icon">📋</div>
+          <div class="item-body">
+            <div class="item-title">PDPA 동의·보존정책·데이터이동권 <span class="badge priority">우선순위 높음</span></div>
+            <div class="item-desc">생체·GPS·근태 수집 동의/고지 플로우, 6년 후 자동 purge(보존정책), DPO 필드, 직원 데이터 export(데이터 이동권). 컴플라이언스를 "셀링포인트"로</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">📄</div>
+          <div class="item-body">
+            <div class="item-title">영어·BM 개인정보처리방침 + 이용약관 <span class="badge pending">할 일</span></div>
+            <div class="item-desc">현 한국 privacy.html·terms.html를 말레이시아 PDPA 기준으로 영어/BM 재작성. 셀프 해지 약관 반영(한국과 동일하게 해지 기능 제공)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 시장 진입 -->
+    <div class="section">
+      <div class="section-title">🚀 시장 진입 (Go-to-Market)</div>
+      <div class="card">
+        <div class="item">
+          <div class="item-icon">🏷️</div>
+          <div class="item-body">
+            <div class="item-title">가격 정책 — MYR, 무료티어 필수 <span class="badge priority">우선순위 높음</span></div>
+            <div class="item-desc">5인까지 무료 → 직원당 <b>RM5~8</b> 또는 매장당 <b>RM39 정액</b>. StaffAny(RM179+/로스터)보다 싸고 Jibble보다 단순하게. 연간결제 ~30% 할인</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">🎁</div>
+          <div class="item-body">
+            <div class="item-title">SME Digitalisation Grant / MDEC 벤더 등록 <span class="badge priority">우선순위 높음</span></div>
+            <div class="item-desc">RM1억+ 중소기업 디지털화 매칭 보조금 = 저비용 획득 채널. "보조금 대상 솔루션"으로 등재되면 현지 경쟁사와 동일선상</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">🧪</div>
+          <div class="item-body">
+            <div class="item-title">비공개 베타 — 미니 사업체 5~10곳 <span class="badge pending">할 일</span></div>
+            <div class="item-desc">독립 카페·리테일·살롱 + 소규모 건설팀(오프사이트 GPS+QR). "5분 셋업 + 노동청 점검 리포트 원클릭"을 핵심 가치로 검증</div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="item-icon">🥊</div>
+          <div class="item-body">
+            <div class="item-title">경쟁 대응 — Jibble 무료 무제한 의식 <span class="badge pending">할 일</span></div>
+            <div class="item-desc">Jibble(GPS·얼굴인식 포함 무료 무제한)·StaffAny·로컬(BOSS·ECO·DigiSME)이 QR을 이미 제공. QR 자체로는 차별화 불가 → 단순성·BM 현지화·6년 보존/점검 리포트로 차별화</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 그대로 재사용 -->
+    <div class="section">
+      <div class="section-title">♻️ 한국 코어 그대로 재사용 (다시 안 만들어도 됨)</div>
+      <div class="card">
+        <div class="item">
+          <div class="item-icon">✅</div>
+          <div class="item-body">
+            <div class="item-title">공유 코어 — 엔진은 시장 중립적 <span class="badge done">재사용</span></div>
+            <div class="item-desc">QR 출퇴근 엔진 · 서버측 GPS 반경 검증 · 야간/익일 근무 컷오프 · 멀티테넌트 RLS · 키오스크 모드 · 웹푸시 · 엑셀 export 골격 · PWA/Capacitor 패키징. → 말레이시아 버전은 "엔진 재사용 + 위 현지화 레이어 교체"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 앱 구성 전략 (질문 답변) -->
+    <div class="section">
+      <div class="section-title">🏗️ 앱 구성 전략 — "기존 틀로 말레이시아용을 따로 만들 수 있나?"</div>
+      <div class="card">
+        <div class="item">
+          <div class="item-icon">💡</div>
+          <div class="item-body">
+            <div class="item-title">결론: 가능 — <b>공유 코어 + 국가별 설정</b> 방식 권장 (포크❌) <span class="badge priority">권장</span></div>
+            <div class="item-desc">한국 앱은 그대로 운영하면서, <b>같은 코드베이스에 i18n + 국가 설정(통화·세법·결제·공휴일·법규 템플릿)을 데이터로 분리</b>하고 말레이시아는 <b>별도 Supabase 프로젝트(MY 리전) + 별도 앱 등록(다른 패키지명/스토어 리스팅)</b>으로 배포. 코드를 통째로 복사(fork)하면 버그·기능을 두 번 고쳐야 하므로 비권장. 단, 급여·계약·법규 엔진은 국가별로 거의 새로 짜야 함(현지화 항목 참고)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /#view-my -->
+
+  <div style="text-align:center;font-size:12px;color:#c4c9d4;padding:20px 0">
+    SCAN&GO 개발 로드맵 v0.9 · 업데이트: 2026-06-06 · 보안 패치 + 포트원 정기결제/해지 + 말레이시아 출시 준비 탭 · <a href="dashboard.html" style="color:#00c9a7">대시보드로 이동</a>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.country-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      var c = tab.dataset.country;
+      document.querySelectorAll('.country-tab').forEach(function (t) {
+        t.classList.toggle('active', t === tab);
+      });
+      document.getElementById('view-kr').style.display = (c === 'kr') ? '' : 'none';
+      document.getElementById('view-my').style.display = (c === 'my') ? '' : 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>

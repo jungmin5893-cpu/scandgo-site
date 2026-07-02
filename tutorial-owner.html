@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="/assets/favicon-CpFwH0mx.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f1b2d">
+<title>SCAN&GO — 사장님 사용법 안내</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script>if(window.Capacitor?.isNativePlatform?.())document.documentElement.classList.add('native-app');</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --primary:#0F2942;--gold:#B8935A;--green:#00c9a7;--green3:#e0faf6;
+  --navy:#0F2942;--gray1:#f4f6f9;--gray2:#e2e7ef;--gray3:#8a94a6;--gray4:#3d4a5c;
+  --dark:#0F2942;--white:#fff;--red:#8B2C2C;
+  --shadow:0 1px 6px rgba(0,0,0,.06);--radius:8px;
+}
+html,body{height:100%;}
+body{font-family:'Inter','Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:var(--gray1);color:var(--dark);min-height:100dvh;display:flex;justify-content:center;}
+
+.app-wrap{display:flex;width:100%;max-width:1440px;min-height:100dvh;position:relative;}
+
+/* ── 사이드바 ── */
+.sidebar{width:220px;background:var(--navy);color:#fff;display:flex;flex-direction:column;flex-shrink:0;position:sticky;top:0;height:100dvh;z-index:50;}
+.side-head{padding:20px 18px 14px;border-bottom:1px solid rgba(255,255,255,.08);}
+.side-head .logo{font-size:20px;font-weight:900;letter-spacing:3px;color:#fff;display:flex;align-items:center;gap:8px;}
+.side-head .logo span{color:var(--gold);}
+.side-head .biz{font-size:12px;color:rgba(255,255,255,.5);margin-top:4px;}
+.trial-badge{margin:8px 18px 0;padding:5px 10px;background:rgba(184,147,90,.2);border:1px solid rgba(184,147,90,.4);border-radius:4px;font-size:11px;font-weight:700;text-align:center;color:var(--gold);}
+.nav-section{padding:14px 18px 4px;font-size:10px;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;}
+.nav-list{flex:1;padding:8px 0;}
+.nav-item{padding:10px 18px;font-size:13px;color:rgba(255,255,255,.65);cursor:pointer;display:flex;align-items:center;gap:9px;border:none;background:none;width:100%;text-align:left;font-family:inherit;border-left:3px solid transparent;transition:.12s;}
+.nav-item:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.9);}
+.nav-item.active{background:rgba(184,147,90,.12);color:var(--gold);font-weight:700;border-left-color:var(--gold);}
+.nav-item .ic{font-size:15px;width:18px;text-align:center;}
+.side-foot{padding:14px 22px;border-top:1px solid rgba(255,255,255,.06);}
+.owner-chip{display:flex;align-items:center;gap:8px;font-size:13px;}
+.owner-chip .avatar{width:30px;height:30px;border-radius:50%;background:var(--green);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:800;}
+
+/* ── 메인 ── */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:auto;}
+.topbar{display:none;background:#fff;border-bottom:1px solid var(--gray2);padding:12px 16px;align-items:center;gap:12px;position:sticky;top:0;z-index:10;padding-top:max(12px, env(safe-area-inset-top,12px));}
+.topbar .logo{font-size:16px;font-weight:900;letter-spacing:2px;display:flex;align-items:center;gap:8px;}
+.topbar .logo span{color:var(--green);}
+.mobile-menu{background:none;border:none;font-size:22px;cursor:pointer;padding:2px 6px;}
+.view-root{padding:24px 28px;flex:1;}
+
+.page-head{margin-bottom:22px;}
+.page-head h1{font-size:22px;font-weight:900;letter-spacing:-.3px;}
+.page-head .page-sub{color:var(--gray3);font-size:13px;margin-top:5px;}
+
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden;border:1px solid var(--gray2);border-left:4px solid var(--gold);}
+.card-head{padding:14px 18px;border-bottom:1px solid var(--gray2);}
+.card-head h2{font-size:14px;font-weight:800;color:var(--navy);}
+.card-head .card-sub{font-size:12px;color:var(--gray3);margin-top:2px;}
+
+.empty-state{padding:48px 20px;text-align:center;color:var(--gray3);font-size:14px;}
+.empty-state .icon{font-size:42px;margin-bottom:10px;opacity:.4;}
+
+.btn{padding:9px 16px;border-radius:8px;border:1.5px solid var(--gray2);background:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--dark);transition:.15s;}
+.btn:hover{background:var(--gray1);}
+.btn.primary{background:linear-gradient(135deg,#00c9a7,#00b096);color:#fff;border-color:transparent;box-shadow:0 2px 8px rgba(0,201,167,.28);}
+.btn.primary:hover{filter:brightness(.95);}
+.btn.small{padding:5px 11px;font-size:12px;}
+
+.form-row{display:flex;gap:10px;padding:14px 20px;flex-wrap:wrap;align-items:center;}
+.form-row input,.form-row select{flex:1;min-width:140px;padding:10px 12px;border:1.5px solid var(--gray2);border-radius:8px;font-size:13px;font-family:inherit;}
+.form-row input:focus,.form-row select:focus{border-color:var(--green);outline:none;}
+
+/* ── 매장 카드 ── */
+.store-card{padding:0;}
+.store-toggle-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:14px 18px;transition:background .15s;}
+.store-toggle-head:hover{background:rgba(0,201,167,.06);}
+.store-toggle-head h3{margin:0;font-size:15px;font-weight:800;}
+.store-emp-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:rgba(138,148,166,.12);color:var(--gray3);margin-left:8px;}
+.store-emp-badge.active{background:rgba(0,201,167,.15);color:var(--green);}
+.store-chevron{font-size:13px;color:var(--gray3);transition:transform .2s;}
+.store-detail{padding:0 18px 16px;}
+.store-qr-wrap{display:flex;gap:20px;flex-wrap:wrap;}
+.qr-block{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.qr-canvas{background:#fff;padding:8px;border-radius:8px;border:1px solid var(--gray2);width:200px;height:200px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gray3);background:repeating-conic-gradient(#0F2942 0% 25%,#fff 0% 50%) 50%/16px 16px;}
+.store-info{font-size:13px;line-height:1.8;flex:1;min-width:240px;}
+.store-info code{font-family:'Courier New',monospace;font-size:11px;background:var(--gray1);padding:6px 8px;border-radius:6px;display:inline-block;margin-top:4px;word-break:break-all;}
+
+/* ── 초대코드 ── */
+.invite-code-box{background:linear-gradient(135deg,rgba(0,201,167,.1),rgba(184,147,90,.08));border:2px dashed var(--green);border-radius:12px;padding:24px;text-align:center;margin:16px 0;}
+.invite-code-box .code{font-size:36px;font-weight:900;letter-spacing:6px;color:var(--green);font-family:'Courier New',monospace;}
+.invite-code-box .label{font-size:12px;color:var(--gray4);margin-top:6px;}
+
+/* ── 출퇴근 테이블 ── */
+.att-table{width:100%;border-collapse:collapse;font-size:13px;}
+.att-table th{background:var(--gray1);text-align:left;padding:10px 16px;font-weight:700;color:var(--gray4);border-bottom:1px solid var(--gray2);font-size:11px;text-transform:uppercase;}
+.att-table td{padding:11px 16px;border-bottom:1px solid var(--gray2);}
+.att-table tr:last-child td{border-bottom:none;}
+.att-table .pill{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;background:var(--green3);color:#00a88a;}
+
+/* ── KPI ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.kpi-card{background:#fff;border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);border:1px solid var(--gray2);border-left:4px solid var(--primary);}
+.kpi-card .kpi-label{font-size:11px;color:var(--gray3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.kpi-card .kpi-val{font-size:28px;font-weight:900;color:var(--primary);line-height:1;}
+.kpi-card .kpi-foot{font-size:11px;color:var(--gray3);margin-top:5px;}
+
+/* ════════════════════════════════════════════════════════════
+   튜토리얼 오버레이
+════════════════════════════════════════════════════════════ */
+.tut-overlay{position:fixed;inset:0;background:rgba(15,27,45,.62);z-index:9000;pointer-events:auto;backdrop-filter:blur(2px);transition:opacity .35s;}
+.tut-spotlight{position:absolute;border-radius:10px;box-shadow:0 0 0 9999px rgba(15,27,45,.7),0 0 0 4px var(--green),0 0 30px rgba(0,201,167,.5);pointer-events:none;transition:all .35s cubic-bezier(.4,0,.2,1);z-index:9100;}
+.tut-tooltip{position:absolute;background:#fff;border-radius:14px;padding:20px 22px;max-width:340px;box-shadow:0 12px 40px rgba(0,0,0,.3);z-index:9200;transition:all .35s cubic-bezier(.4,0,.2,1);}
+.tut-tooltip .step-num{font-size:11px;font-weight:800;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+.tut-tooltip h3{font-size:17px;font-weight:900;margin-bottom:8px;color:var(--dark);}
+.tut-tooltip p{font-size:13px;line-height:1.65;color:var(--gray4);}
+.tut-tooltip .tut-actions{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:18px;}
+.tut-tooltip .tut-actions .left{display:flex;gap:6px;}
+.tut-skip{background:none;border:none;color:var(--gray3);font-size:12px;cursor:pointer;font-family:inherit;text-decoration:underline;}
+.tut-prev{background:#fff;border:1.5px solid var(--gray2);padding:8px 14px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--gray4);}
+.tut-next{background:linear-gradient(135deg,#00c9a7,#00b096);color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(0,201,167,.3);}
+.tut-next:hover{filter:brightness(.95);}
+
+/* 진행 표시 */
+.tut-progress{position:fixed;top:18px;right:24px;background:rgba(255,255,255,.95);border-radius:30px;padding:8px 18px;font-size:12px;font-weight:700;color:var(--dark);box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:9300;display:flex;align-items:center;gap:10px;}
+.tut-progress .dots{display:flex;gap:5px;}
+.tut-progress .dot{width:8px;height:8px;border-radius:50%;background:var(--gray2);transition:.2s;}
+.tut-progress .dot.active{background:var(--green);}
+.tut-progress .dot.done{background:var(--green);opacity:.5;}
+
+/* 완료 화면 */
+.tut-complete{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,27,45,.85);z-index:9500;backdrop-filter:blur(6px);}
+.tut-complete.active{display:flex;}
+.tut-complete-box{background:#fff;border-radius:20px;padding:40px 32px;text-align:center;max-width:380px;width:90%;}
+.tut-complete-box .icon{font-size:64px;margin-bottom:14px;}
+.tut-complete-box h2{font-size:22px;font-weight:900;margin-bottom:10px;}
+.tut-complete-box p{font-size:14px;color:var(--gray4);line-height:1.7;margin-bottom:22px;}
+.tut-complete-box .btn-go{width:100%;padding:14px;background:linear-gradient(135deg,#00c9a7,#00b096);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;}
+.tut-complete-box .btn-go.secondary{margin-top:8px;background:#fff;color:var(--gray4);border:1.5px solid var(--gray2);}
+
+@media (max-width:900px){
+  .sidebar{position:fixed;left:0;top:0;height:100%;transform:translateX(-100%);transition:transform .22s;z-index:100;}
+  .sidebar.open{transform:translateX(0);box-shadow:12px 0 32px rgba(0,0,0,.3);}
+  .topbar{display:flex;}
+  .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .view-root{padding:16px;}
+  .tut-tooltip{max-width:calc(100vw - 32px);left:16px!important;right:16px!important;}
+}
+@media (max-width:600px){
+  .view-root{padding:12px 14px;}
+  .store-qr-wrap{flex-direction:column;}
+}
+</style>
+  <script type="module" crossorigin src="/assets/tutorialOwner-C8D-elxZ.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/supabase-D5W_lk-C.js">
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+<body>
+
+<div class="app-wrap">
+  <aside class="sidebar" id="sidebar">
+    <div class="side-head">
+      <div class="logo">
+        <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+          <path d="M4 10.5 L4 4 L10.5 4" stroke="#00c9a7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17.5 4 L24 4 L24 10.5" stroke="#00c9a7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 17.5 L4 24 L10.5 24" stroke="#00c9a7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17.5 24 L24 24 L24 17.5" stroke="#00c9a7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7 14 L20.5 14 M16.5 9.5 L21 14 L16.5 18.5" stroke="#00c9a7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        SCAN<span>&amp;GO</span>
+      </div>
+      <div class="biz">사장님 사용법 안내</div>
+    </div>
+    <div class="trial-badge">교육 모드</div>
+    <nav class="nav-list">
+      <div class="nav-section">기본</div>
+      <button class="nav-item" data-route="overview"><span class="ic">▣</span>대시보드</button>
+      <div class="nav-section">관리</div>
+      <button class="nav-item active" id="nav-stores" data-route="stores"><span class="ic">○</span>현장 / QR</button>
+      <button class="nav-item" id="nav-employees" data-route="employees"><span class="ic">○</span>직원 관리</button>
+      <button class="nav-item" id="nav-attendance" data-route="attendance"><span class="ic">○</span>출퇴근</button>
+    </nav>
+    <div class="side-foot">
+      <div class="owner-chip">
+        <div class="avatar">사</div>
+        <div><div style="font-size:13px;font-weight:600">사장님</div><div style="font-size:10px;color:rgba(255,255,255,.4)">체험 중</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <button class="mobile-menu" id="mobile-menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+      <div class="logo">
+        <svg width="18" height="18" viewBox="0 0 28 28" fill="none">
+          <path d="M4 10.5 L4 4 L10.5 4" stroke="#00c9a7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17.5 4 L24 4 L24 10.5" stroke="#00c9a7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 17.5 L4 24 L10.5 24" stroke="#00c9a7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17.5 24 L24 24 L24 17.5" stroke="#00c9a7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7 14 L20.5 14 M16.5 9.5 L21 14 L16.5 18.5" stroke="#00c9a7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        SCAN<span>&amp;GO</span>
+      </div>
+    </div>
+    <div class="view-root" id="view-root"></div>
+  </main>
+</div>
+
+<!-- 튜토리얼 오버레이 -->
+<div class="tut-overlay" id="tut-overlay"></div>
+<div class="tut-spotlight" id="tut-spotlight"></div>
+<div class="tut-tooltip" id="tut-tooltip">
+  <div class="step-num" id="step-num">단계 1 / 4</div>
+  <h3 id="step-title"></h3>
+  <p id="step-desc"></p>
+  <div class="tut-actions">
+    <button class="tut-skip" id="btn-skip">건너뛰기</button>
+    <div class="left" style="margin-left:auto;display:flex;gap:8px">
+      <button class="tut-prev" id="btn-prev" style="display:none">이전</button>
+      <button class="tut-next" id="btn-next">다음 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- 진행 표시 -->
+<div class="tut-progress">
+  <span id="prog-label">사장님 사용법 안내</span>
+  <div class="dots">
+    <div class="dot active" data-step="1"></div>
+    <div class="dot" data-step="2"></div>
+    <div class="dot" data-step="3"></div>
+    <div class="dot" data-step="4"></div>
+  </div>
+</div>
+
+<!-- 완료 모달 -->
+<div class="tut-complete" id="tut-complete">
+  <div class="tut-complete-box">
+    <div class="icon"><svg width="60" height="60" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 12.4l3 3 6-6.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h2>교육 완료!</h2>
+    <p>이제 SCAN&GO의 핵심 기능을 모두 익히셨어요.<br>실제 사용 중에 다시 보고 싶으시면 <strong>설정 → 튜토리얼 다시 보기</strong>를 눌러주세요.</p>
+    <button class="btn-go" id="btn-finish">시작하기</button>
+    <button class="btn-go secondary" id="btn-restart">다시 보기</button>
+  </div>
+</div>
+
+</body>
+</html>

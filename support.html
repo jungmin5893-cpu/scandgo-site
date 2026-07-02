@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="/assets/favicon-CpFwH0mx.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScandGo 고객지원</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:#f4f6f9;color:#1a1d23;line-height:1.7;}
+  .wrap{max-width:720px;margin:0 auto;padding:40px 20px 80px;}
+  .back-btn{display:inline-flex;align-items:center;gap:6px;color:#00c9a7;font-weight:700;font-size:14px;text-decoration:none;margin-bottom:28px;cursor:pointer;}
+  .back-btn:hover{text-decoration:underline;}
+  h1{font-size:24px;font-weight:900;margin-bottom:6px;color:#0f1b2d;}
+  .subtitle{font-size:13px;color:#8a94a6;margin-bottom:32px;}
+  .section{background:#fff;border-radius:14px;padding:24px 28px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+  .section h2{font-size:16px;font-weight:800;color:#0f1b2d;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid #e5e7eb;}
+  .section p,.section li{font-size:14px;color:#374151;margin-bottom:8px;}
+  .section ul{padding-left:20px;}
+  .section li{margin-bottom:6px;}
+  strong{color:#0f1b2d;}
+  .faq-item{margin-bottom:20px;}
+  .faq-item:last-child{margin-bottom:0;}
+  .faq-q{font-size:14px;font-weight:700;color:#0f1b2d;margin-bottom:6px;}
+  .faq-a{font-size:14px;color:#374151;padding-left:12px;border-left:3px solid #00c9a7;}
+  .contact-link{color:#00c9a7;font-weight:700;text-decoration:none;}
+  .contact-link:hover{text-decoration:underline;}
+  .version-info{font-size:14px;color:#374151;}
+  .badge{display:inline-block;background:#0f1b2d;color:#00c9a7;font-size:12px;font-weight:700;padding:2px 10px;border-radius:20px;margin-left:8px;vertical-align:middle;}
+</style>
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+<body>
+<div class="wrap">
+  <a class="back-btn" onclick="history.back()">&#x2039; 돌아가기</a>
+  <h1>ScandGo 고객지원</h1>
+  <div class="subtitle">궁금한 점이 있으시면 아래 FAQ를 확인하거나 이메일로 문의해 주세요.</div>
+
+  <div class="section">
+    <h2>자주 묻는 질문 (FAQ)</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">Q. QR 코드는 어떻게 스캔하나요?</div>
+      <div class="faq-a">앱을 실행한 뒤 메인 화면의 <strong>'QR 스캔'</strong> 버튼을 누르세요. 카메라가 열리면 사업장에 부착된 QR 코드를 화면 중앙에 맞춰 비추면 자동으로 인식됩니다. 카메라 권한이 없을 경우 기기 설정 → 앱 → ScandGo에서 카메라 권한을 허용해 주세요.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Q. 출퇴근 기록은 어디서 확인하나요?</div>
+      <div class="faq-a">앱 하단 메뉴에서 <strong>'근태 기록'</strong>을 탭하면 날짜별 출퇴근 시각과 근무 시간을 확인할 수 있습니다. 사장님 계정으로 로그인하면 전체 직원의 근태 현황도 함께 조회할 수 있습니다.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Q. 비밀번호를 변경하고 싶어요.</div>
+      <div class="faq-a">앱 우측 상단 <strong>프로필 아이콘</strong> → <strong>'설정'</strong> → <strong>'계정 관리'</strong> → <strong>'비밀번호 변경'</strong>을 선택하세요. 현재 비밀번호 입력 후 새 비밀번호를 설정할 수 있습니다. 비밀번호를 잊으셨다면 로그인 화면의 <strong>'비밀번호 찾기'</strong>를 이용해 주세요.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>문의하기</h2>
+    <p>FAQ에서 해결되지 않은 문제는 이메일로 문의해 주세요. 영업일 기준 1~2일 이내에 답변 드립니다.</p>
+    <p style="margin-top:12px;">
+      <strong>이메일:</strong>
+      <a class="contact-link" href="mailto:jungmin5893@gmail.com">jungmin5893@gmail.com</a>
+    </p>
+    <p style="margin-top:8px;font-size:13px;color:#8a94a6;">문의 시 앱 버전, 기기 모델명, 문제 상황을 함께 적어 주시면 더 빠르게 도움을 드릴 수 있습니다.</p>
+  </div>
+
+  <div class="section">
+    <h2>버전 정보</h2>
+    <p class="version-info"><strong>앱 이름:</strong> ScandGo</p>
+    <p class="version-info"><strong>현재 버전:</strong> 1.0.0 <span class="badge">최신</span></p>
+    <p class="version-info"><strong>개발사:</strong> ScandGo</p>
+    <p class="version-info" style="margin-top:12px;font-size:13px;color:#8a94a6;">최신 버전을 유지하면 새로운 기능과 보안 업데이트를 바로 받을 수 있습니다.</p>
+  </div>
+
+</div>
+</body>
+</html>

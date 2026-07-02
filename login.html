@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="/assets/favicon-CpFwH0mx.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f1b2d">
+<title>SCAN&GO — 로그인</title>
+<script>if(window.Capacitor?.isNativePlatform?.())document.documentElement.classList.add('native-app');</script>
+<link rel="manifest" href="/manifest.webmanifest">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --primary:#2563EB;--primary2:#1D4ED8;--primary3:#EFF4FF;
+  --navy:#0f1b2d;--navy2:#1a2d45;--navy3:#243650;
+  --gray1:#f4f6f9;--gray2:#e2e7ef;--gray3:#8a94a6;--gray4:#3d4a5c;
+  --dark:#0f1b2d;--white:#fff;
+  --red:#f04438;--orange:#f79009;
+  --shadow:0 4px 24px rgba(0,0,0,.10);
+}
+body{
+  font-family:'Pretendard Variable','Pretendard','Inter','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  background:linear-gradient(160deg,#07101A 0%,#0B1A33 60%,#0F1F38 100%);
+  min-height:100dvh;display:flex;align-items:center;justify-content:center;
+  padding:max(env(safe-area-inset-top,20px),20px) 20px max(env(safe-area-inset-bottom,20px),20px);
+}
+.card{background:#fff;border-radius:24px;width:100%;max-width:420px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden;}
+.card-head{
+  background:linear-gradient(160deg,#0B1A33 0%,#13243F 70%,#0F1F38 100%);
+  padding:30px 28px 24px;color:#fff;text-align:center;position:relative;overflow:hidden;
+}
+.card-head::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;
+  background:radial-gradient(circle,rgba(37,99,235,.18) 0%,transparent 70%);}
+.card-head::after{content:'';position:absolute;bottom:-30px;left:-30px;width:100px;height:100px;border-radius:50%;
+  background:radial-gradient(circle,rgba(37,99,235,.12) 0%,transparent 70%);}
+.logo-wrap{display:flex;align-items:center;justify-content:center;gap:10px;position:relative;z-index:1;}
+.logo-svg{width:36px;height:36px;flex-shrink:0;}
+.logo-text{display:flex;flex-direction:column;align-items:flex-start;}
+.logo-name{font-size:26px;font-weight:900;letter-spacing:2px;color:#fff;line-height:1;}
+.logo-name span{color:#2563EB;}
+.logo-sub{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;}
+.trial-banner{background:var(--primary3);color:var(--primary2);text-align:center;padding:10px 16px;font-size:13px;font-weight:700;border-bottom:1px solid var(--gray2);}
+.trial-banner span{opacity:.85;font-weight:400;}
+.panels{padding:24px 28px 28px;}
+.panel{display:none;animation:fadeIn .2s ease;}
+.panel.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;}
+.role-btn{border:2px solid var(--gray2);border-radius:16px;padding:22px 10px;text-align:center;cursor:pointer;background:#fff;transition:.18s;}
+.role-btn:hover,.role-btn.active{border-color:var(--primary);background:var(--primary3);}
+.role-btn .rb-icon{margin-bottom:12px;color:var(--primary);display:flex;align-items:center;justify-content:center;}
+.role-btn .rb-title{font-size:15px;font-weight:800;margin-bottom:4px;color:var(--dark);}
+.role-btn .rb-sub{font-size:11px;color:var(--gray3);line-height:1.5;}
+.panel-title{font-size:18px;font-weight:800;margin-bottom:4px;color:var(--dark);}
+.panel-sub{font-size:13px;color:var(--gray3);margin-bottom:20px;line-height:1.6;}
+.form-group{margin-bottom:14px;}
+.form-group label{display:block;font-size:12px;font-weight:700;margin-bottom:5px;color:var(--gray4);}
+.form-group input,.form-group select{width:100%;padding:12px 14px;border:1.5px solid var(--gray2);border-radius:10px;font-size:14px;outline:none;font-family:inherit;transition:.15s;color:var(--dark);background:#fff;}
+.form-group input:focus,.form-group select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.12);}
+.pw-wrap{position:relative;}
+.pw-wrap input{padding-right:44px;}
+.pw-eye{position:absolute;right:13px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:17px;color:var(--gray3);}
+/* 비밀번호 강도 */
+.pw-strength-bar{height:4px;background:var(--gray2);border-radius:2px;margin-top:7px;overflow:hidden;}
+.pw-strength-fill{height:100%;width:0;border-radius:2px;transition:width .35s,background .35s;}
+.pw-strength-fill.weak{width:33%;background:var(--red);}
+.pw-strength-fill.fair{width:66%;background:var(--orange);}
+.pw-strength-fill.strong{width:100%;background:var(--primary);}
+.pw-strength-label{font-size:11px;margin-top:4px;min-height:14px;}
+/* 비밀번호 일치 */
+.pw-match-wrap{position:relative;}
+.pw-match-wrap input{padding-right:68px;}
+.pw-match-status{position:absolute;right:44px;top:50%;transform:translateY(-50%);font-size:13px;font-weight:700;pointer-events:none;}
+.btn{width:100%;padding:13px;border-radius:10px;border:none;font-size:15px;font-weight:800;cursor:pointer;transition:.15s;margin-top:4px;font-family:inherit;}
+.btn.green{background:linear-gradient(135deg,#2563EB,#1D4ED8);color:#fff;box-shadow:0 4px 14px rgba(37,99,235,.35);}
+.btn.green:hover{background:linear-gradient(135deg,#1D4ED8,#1E40AF);}
+.btn.green:disabled{background:var(--gray2);color:var(--gray3);cursor:default;box-shadow:none;}
+.btn.ghost{background:var(--gray1);color:var(--dark);border:1.5px solid var(--gray2);}
+.btn.ghost:hover{background:var(--gray2);}
+.btn-back{background:none;border:none;color:var(--gray3);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:3px;margin-bottom:16px;font-family:inherit;padding:0;}
+.btn-back:hover{color:var(--primary);}
+.divider{display:flex;align-items:center;gap:10px;margin:18px 0;color:var(--gray3);font-size:12px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--gray2);}
+.foot-link{text-align:center;font-size:13px;color:var(--gray3);margin-top:16px;}
+.foot-link a{color:var(--primary);font-weight:700;cursor:pointer;text-decoration:none;}
+.foot-link a:hover{text-decoration:underline;}
+.hint{font-size:11px;color:var(--gray3);margin-top:5px;line-height:1.4;}
+/* ── 동의 박스 ── */
+.consent-box{background:#f8faff;border:1.5px solid var(--gray2);border-radius:12px;padding:14px 16px;margin-top:4px;}
+/* .form-group label/input 전역 규칙(display:block, width:100%)보다 우선순위를 높여야 함 */
+.consent-box label.consent-all-label{display:flex;flex-direction:row;align-items:center;gap:10px;cursor:pointer;padding-bottom:10px;margin-bottom:8px;border-bottom:1.5px solid var(--gray2);flex-wrap:nowrap;font-size:14px;color:var(--dark);}
+.consent-box .consent-all-text{font-size:14px;font-weight:800;color:var(--dark);flex:1;min-width:0;}
+.consent-box label.consent-item-label{display:flex;flex-direction:row;align-items:center;gap:8px;cursor:pointer;padding:5px 0;margin-bottom:0;font-size:13px;font-weight:400;color:var(--gray4);line-height:1.4;flex-wrap:nowrap;}
+.consent-box .consent-item-label b{color:var(--dark);font-weight:700;}
+.consent-box .consent-item-label b.opt{color:var(--gray3);}
+.consent-box .consent-item-label span{flex:1;min-width:0;}
+.consent-box .consent-view{font-size:11px;color:var(--primary);font-weight:700;text-decoration:none;flex-shrink:0;white-space:nowrap;padding:2px 6px;border:1px solid var(--primary);border-radius:4px;}
+.consent-box .consent-view:hover{background:var(--primary3);}
+.consent-box input.consent-check{width:18px;height:18px;padding:0;margin:0;border:none;border-radius:0;accent-color:var(--primary);flex-shrink:0;cursor:pointer;}
+/* ── 모바일 반응형 ── */
+@media (max-width: 480px) {
+  body{padding:0;align-items:flex-start;}
+  .card{border-radius:0;max-width:100%;min-height:100dvh;box-shadow:none;overflow-y:auto;}
+  .card-head{padding:calc(24px + env(safe-area-inset-top,0px)) 20px 20px;}
+  .panels{padding:20px 20px max(32px, calc(env(safe-area-inset-bottom, 0px) + 24px));}
+  .role-btn{padding:18px 8px;}
+  .role-btn .rb-icon{font-size:32px;margin-bottom:8px;}
+  .form-group input,.form-group select{padding:11px 13px;font-size:14px;}
+  .btn{padding:14px;}
+  .consent-box{padding:12px 14px;}
+  .consent-view{font-size:10px;padding:2px 5px;}
+  .consent-item-label{font-size:12px;}
+}
+@media (max-width: 360px) {
+  .panel-title{font-size:16px;}
+  .role-btn .rb-title{font-size:14px;}
+}
+</style>
+  <script type="module" crossorigin src="/assets/login-CqX9MTjh.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/supabase-D5W_lk-C.js">
+  <link rel="modulepreload" crossorigin href="/assets/push-C8k7fzgv.js">
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+<body>
+<div class="card">
+  <div class="card-head">
+    <div class="logo-wrap">
+      <svg class="logo-svg" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="8" fill="#0f1b2d"/>
+        <path d="M5 13 L5 5 L13 5" stroke="#2563EB" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M23 5 L31 5 L31 13" stroke="#2563EB" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5 23 L5 31 L13 31" stroke="#2563EB" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M23 31 L31 31 L31 23" stroke="#2563EB" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 18 L26.5 18 M22 12 L27.5 18 L22 24" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="logo-text">
+        <div class="logo-name">SCAN<span>&amp;GO</span></div>
+        <div class="logo-sub">Smart Attendance</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trial-banner">30일 무료체험 시작 <span>· 신용카드 등록 불필요</span></div>
+
+  <div class="panels">
+    <!-- 역할 선택 -->
+    <div class="panel active" id="panel-role">
+      <div class="panel-title">어떻게 사용하시나요?</div>
+      <div class="panel-sub">사장님과 직원의 화면이 다르니 선택해주세요</div>
+      <div class="role-grid">
+        <button class="role-btn" data-role="owner" type="button">
+          <div class="rb-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 7.5V6a2 2 0 012-2h3a2 2 0 012 2v1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 12.5h18" stroke="currentColor" stroke-width="1.5"/></svg></div>
+          <div class="rb-title">사장님</div>
+          <div class="rb-sub">직원·매장 관리<br>급여 정산</div>
+        </button>
+        <button class="role-btn" data-role="employee" type="button">
+          <div class="rb-icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M5.5 19a6.5 6.5 0 0113 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="rb-title">직원</div>
+          <div class="rb-sub">QR 출퇴근<br>급여 조회</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- 사장 로그인 -->
+    <div class="panel" id="panel-owner-login">
+      <button class="btn-back" data-go="role" type="button">‹ 역할 다시 선택</button>
+      <div class="panel-title">사장님 로그인</div>
+      <div class="panel-sub">사업장 계정으로 로그인하세요</div>
+      <form id="form-owner-login" autocomplete="on">
+        <div class="form-group">
+          <label>이메일</label>
+          <input type="email" id="owner-login-email" required autocomplete="email" placeholder="boss@example.com">
+        </div>
+        <div class="form-group">
+          <label>비밀번호</label>
+          <div class="pw-wrap">
+            <input type="password" id="owner-login-pw" required autocomplete="current-password" placeholder="비밀번호">
+            <button type="button" class="pw-eye" aria-label="비밀번호 보기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          </div>
+        </div>
+        <button type="submit" class="btn green">로그인</button>
+      </form>
+      <div class="foot-link">처음이신가요? <a data-go="ownerSignup">30일 무료체험 시작 →</a></div>
+      <div class="foot-link" style="margin-top:8px"><a id="link-forgot-pw" href="#">비밀번호를 잊으셨나요?</a></div>
+    </div>
+
+    <!-- 비밀번호 재설정 요청 -->
+    <div class="panel" id="panel-forgot-pw">
+      <button class="btn-back" data-go="ownerLogin" type="button">‹ 로그인으로</button>
+      <div class="panel-title">비밀번호 재설정</div>
+      <div class="panel-sub">가입한 이메일을 입력하면 재설정 링크를 보내드립니다</div>
+      <form id="form-forgot-pw">
+        <div class="form-group">
+          <label>이메일</label>
+          <input type="email" id="forgot-email" required autocomplete="email" placeholder="boss@example.com">
+        </div>
+        <button type="submit" class="btn green">재설정 링크 전송</button>
+      </form>
+      <div class="foot-link" style="margin-top:16px"><a data-go="ownerLogin">로그인으로 돌아가기</a></div>
+    </div>
+
+    <!-- 비밀번호 재설정 (이메일 링크 클릭 후) -->
+    <div class="panel" id="panel-reset-pw">
+      <div class="panel-title">새 비밀번호 설정</div>
+      <div class="panel-sub">새 비밀번호를 입력해주세요 (8자 이상)</div>
+      <form id="form-reset-pw">
+        <div class="form-group">
+          <label>새 비밀번호</label>
+          <div class="pw-wrap">
+            <input type="password" id="reset-pw" required minlength="8" autocomplete="new-password" placeholder="새 비밀번호">
+            <button type="button" class="pw-eye" aria-label="비밀번호 보기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          </div>
+          <div class="pw-strength-bar"><div class="pw-strength-fill" id="reset-pw-strength-fill"></div></div>
+          <div class="pw-strength-label" id="reset-pw-strength-label"></div>
+        </div>
+        <div class="form-group">
+          <label>비밀번호 확인</label>
+          <div class="pw-wrap pw-match-wrap">
+            <input type="password" id="reset-pw-confirm" required autocomplete="new-password" placeholder="비밀번호 재입력">
+            <span class="pw-match-status" id="reset-pw-match"></span>
+            <button type="button" class="pw-eye" aria-label="비밀번호 보기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          </div>
+        </div>
+        <button type="submit" class="btn green">비밀번호 변경</button>
+      </form>
+    </div>
+
+    <!-- 사장 회원가입 -->
+    <div class="panel" id="panel-owner-signup">
+      <button class="btn-back" data-go="ownerLogin" type="button">‹ 로그인으로</button>
+      <div class="panel-title">사장님 회원가입</div>
+      <div class="panel-sub">30일 무료체험. 신용카드 등록 없이 시작합니다</div>
+      <form id="form-owner-signup" autocomplete="on">
+        <div class="form-group">
+          <label>이름</label>
+          <input type="text" id="owner-name" required placeholder="홍길동">
+        </div>
+        <div class="form-group">
+          <label>업체명 (사업장 이름)</label>
+          <input type="text" id="biz-name" required placeholder="예: (주)한국종합시설관리">
+        </div>
+        <div class="form-group">
+          <label>사업 유형 <span style="color:var(--red)">*</span></label>
+          <select id="biz-type" required>
+            <option value="청소·시설관리">청소·시설관리 업체</option>
+            <option value="경비·보안">경비·보안 업체</option>
+            <option value="인력사무소">인력사무소·직업소개소</option>
+            <option value="건설도급사">건설 전문 도급사 (설비·전기·소방·통신)</option>
+            <option value="기타">기타 다현장 운영 회사</option>
+            <option value="공장">공장·제조업</option>
+            <option value="사무실">사무실·서비스업</option>
+            <option value="매장">매장·소매업</option>
+          </select>
+          <div class="hint">선택 후 현장·직원 등 용어와 메뉴가 맞춤 표시됩니다.</div>
+        </div>
+        <div class="form-group">
+          <label>이메일</label>
+          <input type="email" id="owner-email" required autocomplete="email" placeholder="boss@example.com">
+        </div>
+        <div class="form-group">
+          <label>비밀번호 (8자 이상)</label>
+          <div class="pw-wrap">
+            <input type="password" id="owner-pw" required minlength="8" autocomplete="new-password" placeholder="안전한 비밀번호">
+            <button type="button" class="pw-eye" aria-label="비밀번호 보기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          </div>
+          <div class="pw-strength-bar"><div class="pw-strength-fill" id="owner-pw-strength-fill"></div></div>
+          <div class="pw-strength-label" id="owner-pw-strength-label"></div>
+        </div>
+        <div class="form-group">
+          <label>비밀번호 확인</label>
+          <div class="pw-wrap pw-match-wrap">
+            <input type="password" id="owner-pw-confirm" required autocomplete="new-password" placeholder="비밀번호 재입력">
+            <span class="pw-match-status" id="owner-pw-match"></span>
+            <button type="button" class="pw-eye" aria-label="비밀번호 보기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:8px">
+          <div class="consent-box">
+            <label class="consent-all-label">
+              <input type="checkbox" id="agree-all-owner" class="consent-check">
+              <span class="consent-all-text">전체 동의</span>
+            </label>
+            <label class="consent-item-label">
+              <input type="checkbox" id="agree-terms-owner" required class="consent-check">
+              <span><b>[필수]</b> 이용약관 동의</span>
+              <a href="terms.html" target="_blank" class="consent-view">보기</a>
+            </label>
+            <label class="consent-item-label">
+              <input type="checkbox" id="agree-privacy-owner" required class="consent-check">
+              <span><b>[필수]</b> 개인정보 수집·이용 동의</span>
+              <a href="privacy.html" target="_blank" class="consent-view">보기</a>
+            </label>
+            <label class="consent-item-label">
+              <input type="checkbox" id="agree-location-owner" required class="consent-check">
+              <span><b>[필수]</b> 위치정보 수집·이용 동의</span>
+              <a href="privacy.html#location" target="_blank" class="consent-view">보기</a>
+            </label>
+            <label class="consent-item-label">
+              <input type="checkbox" id="agree-marketing-owner" class="consent-check">
+              <span><b class="opt">[선택]</b> 마케팅 정보 수신 동의</span>
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn green">무료체험 시작 →</button>
+      </form>
+    </div>
+
+    <!-- 직원 로그인 -->
+    <div class="panel" id="panel-emp-login">
+      <button class="btn-back" data-go="role" type="button">‹ 역할 다시 선택</button>
+      <div class="panel-title">직원 로그인</div>
+      <div class="panel-sub">사장님이 등록한 전화번호로 로그인</div>
+      <form id="form-emp-login" autocomplete="on">
+        <div class="form-group">
+          <label>전화번호</label>
+          <input type="tel" id="emp-login-phone" required autocomplete="tel" placeholder="010-1234-5678">
+        </div>
+        <div class="form-group">
+          <label>비밀번호</label>
+          <div class="pw-wrap">
+            <input type="password" id="emp-login-pw" required autocomplete="current-password">
+            <button type="button" class="pw-eye" aria-label="비밀번호 보기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          </div>
+        </div>
+        <button type="submit" class="btn green">로그인</button>
+      </form>
+      <div class="foot-link">사장님이 가입 코드를 줬다면 <a data-go="employeeSignup">여기서 가입 →</a></div>
+    </div>
+
+    <!-- 직원 가입 -->
+    <div class="panel" id="panel-emp-signup">
+      <button class="btn-back" data-go="employeeLogin" type="button">‹ 로그인으로</button>
+      <div class="panel-title">직원 가입</div>
+      <div class="panel-sub" id="emp-signup-sub">사장님이 등록한 전화번호와 가입 코드(6자리)를 입력하세요</div>
+      <form id="form-emp-signup" autocomplete="on">
+        <div class="form-group">
+          <label>이름</label>
+          <input type="text" id="emp-name" required placeholder="홍길동">
+        </div>
+        <div class="form-group">
+          <label>전화번호</label>
+          <input type="tel" id="emp-phone" required autocomplete="tel" placeholder="010-1234-5678">
+        </div>
+        <div class="form-group" id="code-group">
+          <label>가입 코드 (6자리)</label>
+          <input type="text" id="emp-code" required maxlength="6" pattern="[0-9]{6}" placeholder="123456">
+          <div class="hint">사장님 대시보드에서 발급된 코드</div>
+        </div>
+        <div class="form-group">
+          <label>비밀번호 (6자 이상)</label>
+          <div class="pw-wrap">
+            <input type="password" id="emp-pw" required minlength="6" autocomplete="new-password">
+            <button type="button" class="pw-eye" aria-label="비밀번호 보기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          </div>
+          <div class="pw-strength-bar"><div class="pw-strength-fill" id="emp-pw-strength-fill"></div></div>
+          <div class="pw-strength-label" id="emp-pw-strength-label"></div>
+        </div>
+        <div class="form-group">
+          <label>비밀번호 확인</label>
+          <div class="pw-wrap pw-match-wrap">
+            <input type="password" id="emp-pw-confirm" required autocomplete="new-password" placeholder="비밀번호 재입력">
+            <span class="pw-match-status" id="emp-pw-match"></span>
+            <button type="button" class="pw-eye" aria-label="비밀번호 보기"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:8px">
+          <div class="consent-box">
+            <label class="consent-all-label">
+              <input type="checkbox" id="agree-all-emp" class="consent-check">
+              <span class="consent-all-text">전체 동의</span>
+            </label>
+            <label class="consent-item-label">
+              <input type="checkbox" id="agree-terms-emp" required class="consent-check">
+              <span><b>[필수]</b> 이용약관 동의</span>
+              <a href="terms.html" target="_blank" class="consent-view">보기</a>
+            </label>
+            <label class="consent-item-label">
+              <input type="checkbox" id="agree-privacy-emp" required class="consent-check">
+              <span><b>[필수]</b> 개인정보 수집·이용 동의</span>
+              <a href="privacy.html" target="_blank" class="consent-view">보기</a>
+            </label>
+            <label class="consent-item-label">
+              <input type="checkbox" id="agree-location-emp" required class="consent-check">
+              <span><b>[필수]</b> 위치정보 수집·이용 동의</span>
+              <a href="privacy.html#location" target="_blank" class="consent-view">보기</a>
+            </label>
+          </div>
+        </div>
+        <button type="submit" class="btn green">가입 완료</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
